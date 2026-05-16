@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Кыргыз тили</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <a href="home.html">Башкы бет</a>
+    <a href="kyrgyz.html">Кыргыз тили</a>
+      <a href="kids.html">Башталгыч класс</a>
+    <button onclick="logout()">Logout</button>
+  </nav>
+
+  <div class="container">
+    <h1>Катаны тап</h1>
+
+    <div class="card">
+      <h2>Тапшырманы тузуу</h2>
+
+      <input id="wrongText" placeholder="Sentence or word with mistake">
+      <input id="correctText" placeholder="Correct version">
+
+      <button onclick="addMistakeTask()">Тапшырманы кошуу</button>
+      <button onclick="startMistakeGame()">Оюнду баштоо</button>
+    </div>
+
+    <div class="card">
+      <h2>Оюн</h2>
+      <p id="taskText">Азырынча тапшырма жок</p>
+
+      <input id="studentAnswer" placeholder="Сиздин жообунуз">
+      <button onclick="checkMistakeAnswer()">Текшеруу</button>
+
+      <p id="mistakeResult"></p>
+      <p>Упайлар: <span id="mistakePoints">0</span></p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
