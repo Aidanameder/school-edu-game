@@ -18,16 +18,70 @@
     <div class="games">
       <div class="card">
         <h2>Кыз куумай</h2>
-        <p>Кыздар жана балдар тобуна арналган кыргыз маданиятын чагылдырган оюн.</p>
-        <button>Оюнду баштоо</button>
+        <p>Кыздар жана балдар тобу суроолорго жооп берип жарышат.</p>
+        <button onclick="showGame('kyzKuumaiSection')">Оюнду баштоо</button>
       </div>
 
       <div class="card">
         <h2>Алтын шакек</h2>
-        <p>Кез келген окуучуну тандоо. Онда тизмедеги кез келген окуучуга тизмедеги кез келген суроону бере аласыз</p>
-        <button>Оюнду баштоо</button>
+        <p>Окуучуларды жана суроолорду киргизип, шакекти туш келди окуучуга чыгаруу.</p>
+        <button onclick="showGame('altynShakekSection')">Оюнду баштоо</button>
       </div>
     </div>
+
+    <section id="kyzKuumaiSection" class="game-section hidden">
+      <h2>Кыз куумай</h2>
+
+      <div class="card">
+        <h3>Суроолорду кошуу</h3>
+        <input id="girlQuestion" placeholder="Кыздар тобуна суроо">
+        <input id="boyQuestion" placeholder="Балдар тобуна суроо">
+        <button onclick="addKyzKuumaiQuestions()">Суроолорду кошуу</button>
+        <button onclick="startKyzKuumaiGame()">Жарышты баштоо</button>
+      </div>
+
+      <div class="race-road">
+        <div class="finish-line">Финиш</div>
+        <div id="girlRider" class="rider girl">👧🐎</div>
+        <div id="boyRider" class="rider boy">👦🐎</div>
+      </div>
+
+      <div class="card">
+        <h3>Кыздар тобунун суроосу</h3>
+        <p id="currentGirlQuestion">Азырынча суроо жок</p>
+        <button onclick="moveGirl()">Кыздар туура жооп берди</button>
+      </div>
+
+      <div class="card">
+        <h3>Балдар тобунун суроосу</h3>
+        <p id="currentBoyQuestion">Азырынча суроо жок</p>
+        <button onclick="moveBoy()">Балдар туура жооп берди</button>
+      </div>
+
+      <h3 id="kyzKuumaiResult"></h3>
+    </section>
+
+    <section id="altynShakekSection" class="game-section hidden">
+      <h2>Алтын шакек</h2>
+
+      <div class="card">
+        <h3>Окуучулар</h3>
+        <textarea id="studentNames" placeholder="Ар бир окуучунун атын жаңы сапка жазыңыз"></textarea>
+
+        <h3>Суроолор</h3>
+        <textarea id="altynQuestions" placeholder="Ар бир суроону жаңы сапка жазыңыз"></textarea>
+
+        <button onclick="createHands()">Колдорду түзүү</button>
+        <button onclick="chooseRingHand()">Алтын шакек учуп чык!</button>
+      </div>
+
+      <div id="handsContainer" class="hands-container"></div>
+
+      <div class="card">
+        <h3>Натыйжа</h3>
+        <p id="ringResult">Азырынча шакек тандала элек.</p>
+      </div>
+    </section>
   </div>
 
   <script src="app.js"></script>
