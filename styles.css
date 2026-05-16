@@ -33,11 +33,16 @@ nav a, nav button {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-input {
+input, textarea {
   display: block;
   width: 100%;
   padding: 10px;
   margin: 10px 0;
+  box-sizing: border-box;
+}
+
+textarea {
+  min-height: 100px;
 }
 
 button {
@@ -47,10 +52,90 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  margin: 5px 5px 5px 0;
 }
 
 .games {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
+.game-section {
+  margin-top: 30px;
+}
+
+.race-road {
+  position: relative;
+  height: 180px;
+  background: #d7f0d0;
+  border: 3px solid #64a35c;
+  border-radius: 15px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.finish-line {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background: red;
+  color: red;
+  font-weight: bold;
+}
+
+.rider {
+  position: absolute;
+  left: 10px;
+  font-size: 36px;
+  transition: left 0.5s ease;
+}
+
+.girl {
+  top: 35px;
+}
+
+.boy {
+  top: 105px;
+}
+
+.hands-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.hand-card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.hand {
+  font-size: 40px;
+}
+
+.closed-hand {
+  opacity: 0.4;
+}
+
+.ring {
+  font-size: 28px;
+  color: goldenrod;
+}
+
+@media (max-width: 700px) {
+  .games {
+    grid-template-columns: 1fr;
+  }
 }
