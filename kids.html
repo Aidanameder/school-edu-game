@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Башталгыч класс</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <a href="home.html">Башкы бет</a>
+    <a href="kyrgyz.html">Кыргыз тили</a>
+    <a href="kids.html">Башталгыч класс</a>
+    <button onclick="logout()">Чыгуу</button>
+  </nav>
+
+  <div class="container">
+    <h1>Негизги арифметикалык амалдарды тузуу</h1>
+
+    <div class="card">
+      <label>Тапшырманын номери:</label>
+      <input id="taskCount" type="number" value="10">
+
+      <h3>Амалдар</h3>
+      <label><input type="checkbox" value="+" class="operation" checked> +</label>
+      <label><input type="checkbox" value="-" class="operation"> -</label>
+      <label><input type="checkbox" value="*" class="operation"> *</label>
+      <label><input type="checkbox" value="/" class="operation"> /</label>
+
+      <button onclick="generateMathTasks()">Тузуу</button>
+      <button onclick="downloadPDF()">Кочуруу PDF</button>
+    </div>
+
+    <div class="card">
+      <h2>Тузулгон тапшырмалар</h2>
+      <div id="mathTasks"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
