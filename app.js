@@ -1,140 +1,156 @@
-function login() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+function showGame(sectionId) {
+  document.getElementById("kyzKuumaiSection").classList.add("hidden");
+  document.getElementById("altynShakekSection").classList.add("hidden");
 
-  if (username && password) {
-    localStorage.setItem("loggedInUser", username);
-    window.location.href = "home.html";
-  } else {
-    document.getElementById("loginMessage").innerText =
-      "Атыңызды жана паролду киргизиңиз.";
-  }
+  document.getElementById(sectionId).classList.remove("hidden");
 }
 
-function logout() {
-  localStorage.removeItem("loggedInUser");
-  window.location.href = "index.html";
-}
+// Кыз куумай
+let girlQuestions = [];
+let boyQuestions = [];
+let girlQuestionIndex = 0;
+let boyQuestionIndex = 0;
+let girlPosition = 120;
+let boyPosition = 40;
+let finishPosition = 720;
 
-// Катаны тап
-let mistakeTasks = JSON.parse(localStorage.getItem("mistakeTasks")) || [];
-let currentMistakeIndex = 0;
-let mistakePoints = 0;
+function addKyzKuumaiQuestions() {
+  const girlQuestion = document.getElementById("girlQuestion").value.trim();
+  const boyQuestion = document.getElementById("boyQuestion").value.trim();
 
-function addMistakeTask() {
-  const wrongText = document.getElementById("wrongText").value;
-  const correctText = document.getElementById("correctText").value;
-
-  if (!wrongText || !correctText) {
-    alert("Ката жазылган текстти жана туура вариантты киргизиңиз.");
+  if (!girlQuestion || !boyQuestion) {
+    alert("Кыздар жана балдар үчүн суроолорду киргизиңиз.");
     return;
   }
 
-  mistakeTasks.push({ wrongText, correctText });
-  localStorage.setItem("mistakeTasks", JSON.stringify(mistakeTasks));
+  girlQuestions.push(girlQuestion);
+  boyQuestions.push(boyQuestion);
 
-  document.getElementById("wrongText").value = "";
-  document.getElementById("correctText").value = "";
+  document.getElementById("girlQuestion").value = "";
+  document.getElementById("boyQuestion").value = "";
 
-  alert("Тапшырма кошулду");
+  alert("Суроолор кошулду!");
 }
 
-function startMistakeGame() {
-  if (mistakeTasks.length === 0) {
-    alert("Алгач тапшырма кошуңуз.");
+function startKyzKuumaiGame() {
+  if (girlQuestions.length === 0 || boyQuestions.length === 0) {
+    alert("Алгач суроолорду кошуңуз.");
     return;
   }
 
-  currentMistakeIndex = 0;
-  mistakePoints = 0;
-  document.getElementById("mistakePoints").innerText = mistakePoints;
-  document.getElementById("mistakeResult").innerText = "";
+  girlPosition = 120;
+  boyPosition = 40;
+  girlQuestionIndex = 0;
+  boyQuestionIndex = 0;
 
-  showMistakeTask();
+  document.getElementById("girlRider").style.left = girlPosition + "px";
+  document.getElementById("boyRider").style.left = boyPosition + "px";
+  document.getElementById("kyzKuumaiResult").innerText = "";
+
+  showKyzKuumaiQuestions();
 }
 
-function showMistakeTask() {
-  if (currentMistakeIndex >= mistakeTasks.length) {
-    document.getElementById("taskText").innerText = "Оюн бүттү!";
-    document.getElementById("mistakeResult").innerText =
-      "Жалпы упай: " + mistakePoints;
-    return;
-  }
+function showKyzKuumaiQuestions() {
+  document.getElementById("currentGirlQuestion").innerText =
+    girlQuestions[girlQuestionIndex % girlQuestions.length];
 
-  document.getElementById("taskText").innerText =
-    mistakeTasks[currentMistakeIndex].wrongText;
+  document.getElementById("currentBoyQuestion").innerText =
+    boyQuestions[boyQuestionIndex % boyQuestions.length];
 }
 
-function checkMistakeAnswer() {
-  if (currentMistakeIndex >= mistakeTasks.length) {
+function moveGirl() {
+  girlPosition += 60;
+  girlQuestionIndex++;
+
+  document.getElementById("girlRider").style.left = girlPosition + "px";
+
+  if (girlPosition >= finishPosition) {
+    document.getElementById("kyzKuumaiResult").innerText =
+      "🎉 Кыздар тобу финишке жетти! Кыздар жеңди!";
     return;
   }
 
-  const answer = document.getElementById("studentAnswer").value.trim();
-  const correct = mistakeTasks[currentMistakeIndex].correctText.trim();
-
-  if (!answer) {
-    alert("Туура жоопту киргизиңиз.");
-    return;
-  }
-
-  if (answer === correct) {
-    mistakePoints++;
-    document.getElementById("mistakeResult").innerText =
-      "✅ Туура! +1 упай";
-  } else {
-    document.getElementById("mistakeResult").innerText =
-      "❌ Туура эмес. Туура жооп: " + correct;
-  }
-
-  document.getElementById("mistakePoints").innerText = mistakePoints;
-  document.getElementById("studentAnswer").value = "";
-
-  currentMistakeIndex++;
-  showMistakeTask();
+  showKyzKuumaiQuestions();
 }
 
-// Математика тапшырма генератору
-let generatedTasks = [];
+function moveBoy() {
+  boyPosition += 60;
+  boyQuestionIndex++;
 
-function generateMathTasks() {
-  const count = Number(document.getElementById("taskCount").value);
-  const operations = Array.from(
-    document.querySelectorAll(".operation:checked")
-  ).map(op => op.value);
+  document.getElementById("boyRider").style.left = boyPosition + "px";
 
-  if (operations.length === 0) {
-    alert("Жок дегенде бир амал тандаңыз.");
+  if (boyPosition >= girlPosition) {
+    document.getElementById("kyzKuumaiResult").innerText =
+      "🎉 Балдар тобу кызды кууп жетти! Балдар жеңди!";
     return;
   }
 
-  generatedTasks = [];
-
-  for (let i = 0; i < count; i++) {
-    const a = Math.floor(Math.random() * 50) + 1;
-    const b = Math.floor(Math.random() * 20) + 1;
-    const operation = operations[Math.floor(Math.random() * operations.length)];
-
-    generatedTasks.push(`${i + 1}) ${a} ${operation} ${b} = ______`);
-  }
-
-  document.getElementById("mathTasks").innerHTML = generatedTasks.join("<br>");
+  showKyzKuumaiQuestions();
 }
 
-function downloadPDF() {
-  if (generatedTasks.length === 0) {
-    alert("Алгач тапшырмаларды түзүңүз.");
+// Алтын шакек
+let altynStudents = [];
+let altynQuestionList = [];
+let handStates = [];
+
+function createHands() {
+  const namesText = document.getElementById("studentNames").value.trim();
+  const questionsText = document.getElementById("altynQuestions").value.trim();
+
+  if (!namesText || !questionsText) {
+    alert("Окуучулардын аттарын жана суроолорду киргизиңиз.");
     return;
   }
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  altynStudents = namesText.split("\n").map(name => name.trim()).filter(Boolean);
+  altynQuestionList = questionsText.split("\n").map(q => q.trim()).filter(Boolean);
+  handStates = altynStudents.map(() => true);
 
-  doc.text("Математика тапшырмалары", 10, 10);
+  const container = document.getElementById("handsContainer");
+  container.innerHTML = "";
 
-  generatedTasks.forEach((task, index) => {
-    doc.text(task, 10, 20 + index * 10);
+  altynStudents.forEach((student, index) => {
+    const handCard = document.createElement("div");
+    handCard.className = "hand-card";
+    handCard.id = "handCard" + index;
+    handCard.onclick = function () {
+      closeHand(index);
+    };
+
+    handCard.innerHTML = `
+      <strong>${student}</strong>
+      <div class="hand" id="hand${index}">🤲</div>
+    `;
+
+    container.appendChild(handCard);
   });
 
-  doc.save("matematika-tapshyrmalary.pdf");
+  document.getElementById("ringResult").innerText =
+    "Колдор даяр. Эми мугалим колдорду басып жаба алат.";
+}
+
+function closeHand(index) {
+  handStates[index] = false;
+
+  document.getElementById("hand" + index).innerText = "✊";
+  document.getElementById("handCard" + index).classList.add("closed-hand");
+}
+
+function chooseRingHand() {
+  if (altynStudents.length === 0 || altynQuestionList.length === 0) {
+    alert("Алгач окуучуларды жана суроолорду киргизиңиз.");
+    return;
+  }
+
+  const randomIndex = Math.floor(Math.random() * altynStudents.length);
+  const randomQuestion =
+    altynQuestionList[Math.floor(Math.random() * altynQuestionList.length)];
+
+  handStates[randomIndex] = true;
+
+  document.getElementById("hand" + randomIndex).innerHTML = "💍📜";
+  document.getElementById("handCard" + randomIndex).classList.remove("closed-hand");
+
+  document.getElementById("ringResult").innerHTML =
+    `<strong>${altynStudents[randomIndex]}</strong> окуучусуна суроо:<br><br>${randomQuestion}`;
 }
